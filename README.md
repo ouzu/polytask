@@ -11,7 +11,7 @@ COMMANDS:
    help, h  Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
-   --hours value  due in the next n hours (default: 12)
-   --help, -h     show help (default: false)
-
+   --hours value   due in the next n hours (default: 12)
+   --config value  path of the taskwarrior config (default: "~/.config/task/taskrc")
+   --help, -h      show help (default: false)
 ```
