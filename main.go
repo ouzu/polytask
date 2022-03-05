@@ -24,7 +24,8 @@ func main() {
 	tw.FetchAllTasks()
 
 	app := &cli.App{
-		Name: "polytask",
+		Name:  "polytask",
+		Usage: "taskwarrior module for polybar",
 		Flags: []cli.Flag{
 			&cli.IntFlag{
 				Name:  "hours",
