@@ -12,17 +12,7 @@ import (
 
 const dateFormat = "20060102T150405Z"
 
-var tw *taskwarrior.TaskWarrior
-
 func main() {
-	var err error
-	tw, err = taskwarrior.NewTaskWarrior("~/.config/task/taskrc")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	tw.FetchAllTasks()
-
 	app := &cli.App{
 		Name:  "polytask",
 		Usage: "taskwarrior module for polybar",
@@ -32,12 +22,24 @@ func main() {
 				Value: 12,
 				Usage: "due in the next n hours",
 			},
+			&cli.StringFlag{
+				Name:  "config",
+				Value: "~/.config/task/taskrc",
+				Usage: "path of the taskwarrior config",
+			},
 		},
 		Commands: []*cli.Command{
 			{
 				Name:  "next",
 				Usage: "print the next task",
 				Action: func(c *cli.Context) error {
+					tw, err := taskwarrior.NewTaskWarrior(c.String("config"))
+					if err != nil {
+						return err
+					}
+
+					tw.FetchAllTasks()
+
 					var next taskwarrior.Task
 					var nextTime time.Time
 
@@ -70,6 +72,13 @@ func main() {
 				Name:  "number",
 				Usage: "print the number of due tasks",
 				Action: func(c *cli.Context) error {
+					tw, err := taskwarrior.NewTaskWarrior(c.String("config"))
+					if err != nil {
+						return err
+					}
+
+					tw.FetchAllTasks()
+
 					n := 0
 
 					for _, task := range tw.Tasks {
@@ -92,7 +101,7 @@ func main() {
 		},
 	}
 
-	err = app.Run(os.Args)
+	err := app.Run(os.Args)
 	if err != nil {
 		log.Fatal(err)
 	}
