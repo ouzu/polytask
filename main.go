@@ -17,6 +17,10 @@ var tw *taskwarrior.TaskWarrior
 func main() {
 	var err error
 	tw, err = taskwarrior.NewTaskWarrior("~/.config/task/taskrc")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	tw.FetchAllTasks()
 
 	app := &cli.App{
